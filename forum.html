@@ -1,0 +1,34 @@
+<html>
+	<head>
+		<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.0.min.js"></script>
+		<script src='script.js'></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	</head>
+	<body>
+	<nav class="navbar navbar-inverse">
+		<ul class="nav navbar-nav">
+			<li class="active"><a href="#">Home</a></li>
+			<li id="loginTab"><a href="register.html">Login/Register</a></li>
+		<!--//	Welcome : <div id="userName"></div>-->
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<p class="navbar-text">Logged in as: <span id="userName"></span></p>
+			<p class="navbar-text"> <button id="logout">Logout</button></p>
+		</ul>
+
+	</nav>
+		<div style='margin: 100px auto; width: 500px;'>
+			<h1>save a message</h1>
+			<hr />
+			<input id="message" placeholder="enter a message" class="form-control" />
+			<button class="btn btn-success" style="width:100%" id="save">save</button>
+			<br />
+			<br />
+			<h1 id='msgHeader'>messages</h1>
+			<hr />
+			<ul id="messages" class="list-group" style='max-height: 300px; overflow:scroll'>
+				
+			</ul>
+		</div>
+	</body>
+</html>
