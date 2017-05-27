@@ -22,8 +22,8 @@ $(document).ready(function() {
     });
 
     function refreshMessages() {
-        $("#messages").empty();
-        $("#messages").append("<li class='list-group-item'>Loading...</li>");
+         $("#messages").empty();
+         $("#messages").append("<li class='list-group-item'>Loading...</li>");
         $.ajax({
             url: "/forum.php",
             type: "get",
@@ -32,6 +32,7 @@ $(document).ready(function() {
                 for (i = 0; i < data.length; i++) {
                     let li = "<li class='list-group-item'>" +
                         data[i].name + ": " + data[i].message +
+                        "<span class=\"glyphicon glyphicon-remove\"></span>" +
                         "</li>";
                     $("#messages").append(li);
                 }
@@ -44,9 +45,9 @@ $(document).ready(function() {
 
     refreshMessages();
 
-    $("#msgHeader, #messages").click(function () {
-        refreshMessages();
-    });
+    // $("#msgHeader, #messages").click(function () {
+    //     refreshMessages();
+    // });
 
     $.ajax({
         url: "/profile.php",
@@ -86,6 +87,24 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('click','.glyphicon-remove',function(){
+        var post = $(this).parent().text();
+        // var d = {
+        //     name: $("#userName").text(),
+        // };
+        // $.ajax({
+        //     url: "/deletePost.php",
+        //     type: "post",
+        //     data: d,
+        //     dataType: "text",
+        //     success: function () {
+        //         refreshMessages();
+        //     },
+        //     error: function (err) {
+        //         console.log(err);
+        //     }
+        // });
+    });
     function hideLoginTab() {
         //   if ($("#userName").text().length > 0) {
         $("#loginTab").hide();
