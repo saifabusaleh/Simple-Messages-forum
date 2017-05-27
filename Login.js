@@ -37,9 +37,6 @@ $(document).ready(function() {
         });
     });
 
-    function foo() {
-        console.log("foo");
-    }
     $('#register-submit').click(function () {
         var info = {
             user: $("#register-form #username").val(),

@@ -22,19 +22,22 @@ $(document).ready(function() {
     });
 
     function refreshMessages() {
-         $("#messages").empty();
+         $("#posts").empty();
          $("#messages").append("<li class='list-group-item'>Loading...</li>");
         $.ajax({
             url: "/forum.php",
             type: "get",
             success: function (data) {
-                $("#messages").empty();
+                $("#posts").empty();
+                $("#message").val('');
                 for (i = 0; i < data.length; i++) {
-                    let li = "<li class='list-group-item'>" +
-                        data[i].name + ": " + data[i].message +
-                        "<span class=\"glyphicon glyphicon-remove\"></span>" +
-                        "</li>";
-                    $("#messages").append(li);
+                    // let li = "<li class='list-group-item'>" +
+                    //     data[i].name + ": " + data[i].message +
+                    //     "<span class=\"glyphicon glyphicon-remove\"></span>" +
+                    //     "</li>";
+                    // $("#messages").append(li);
+                    data[i].name = data[i].name.split("\"").join("");
+                    $("#posts").append(createPostTemplate(data[i].name,data[i].message));
                 }
             },
             error: function (err) {
@@ -45,18 +48,15 @@ $(document).ready(function() {
 
     refreshMessages();
 
-    // $("#msgHeader, #messages").click(function () {
-    //     refreshMessages();
-    // });
-
     $.ajax({
         url: "/profile.php",
         type: "get",
         success: function (data) {
             var username = data;
-            $("#userName").text(data);
-            console.log("logged user: " + username);
-            if(username.length === 2) {//means that its logged/off
+            username = username.split("\"").join("");
+            console.log("username: " + username);
+            $("#userName").text(username);
+            if(username.length === 0) {//means that its logged/off
                 showLoginTab();
                 hideLogoutButton();
                 disableMessageInputAndSave();
@@ -88,33 +88,35 @@ $(document).ready(function() {
     });
 
     $(document).on('click','.glyphicon-remove',function(){
-        var post = $(this).parent().text();
-        // var d = {
-        //     name: $("#userName").text(),
-        // };
-        // $.ajax({
-        //     url: "/deletePost.php",
-        //     type: "post",
-        //     data: d,
-        //     dataType: "text",
-        //     success: function () {
-        //         refreshMessages();
-        //     },
-        //     error: function (err) {
-        //         console.log(err);
-        //     }
-        // });
+        var postHeader = $(this).parent().text().split(".");
+        var user = postHeader[1];
+        console.log(user);
+        var texts = $(".panel-body");
+        var text = texts.eq(postHeader[0]).text();
+        text = text.split(" ").join("");
+        var d = {
+            name: user,
+            message: text
+        };
+        $.ajax({
+            url: "/deletePost.php",
+            type: "post",
+            data: d,
+            dataType: "text",
+            success: function () {
+                refreshMessages();
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
     });
     function hideLoginTab() {
-        //   if ($("#userName").text().length > 0) {
         $("#loginTab").hide();
-        //   }
     }
 
     function showLoginTab() {
-        //   if ($("#userName").text().length > 0) {
         $("#loginTab").show();
-        //   }
     }
 
     function hideLogoutButton() {
@@ -130,6 +132,24 @@ $(document).ready(function() {
     function enableMessageInputAndSave() {
         $("#message").prop('disabled', false);
         $("#save").prop('disabled', false);
-
     }
+
+    var counter=0;
+    function createPostTemplate(username,  text) {
+        var result = '<div class="col-sm-5">' +
+        '<div class="panel panel-default">' +
+            '<div class="panel-heading">' +
+            '<strong>'+ counter + '.' + username + '</strong>' +
+            ' <span class="glyphicon glyphicon-remove"></span> ' +
+           ' </div>' +
+            '<div class="panel-body"> '+
+            '' + text +
+        '</div>' +
+        '</div>' +
+        '</div>';
+
+        counter++;
+        return result;
+    }
+
 });
