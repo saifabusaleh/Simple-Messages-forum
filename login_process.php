@@ -31,14 +31,15 @@ $user = stripslashes($user);
 $password = stripslashes($password);
 $user = mysqli_real_escape_string($mysqli,$user);
 $password = mysqli_real_escape_string($mysqli,$password);
-
     		$result = mysqli_query($mysqli,
     				"select * from users where password='$password' AND user='$user'")
     				or die(mysqli_error($mysqli));
     	    $rows = mysqli_num_rows($result);
-    	    echo json_encode($result);
     		if ($rows == 1) {
-            $_SESSION['login_user']=$user; // Initializing Session
+    		$arr = array();
+            $user_data = $result->fetch_assoc();
+            $arr[] = $user_data;
+            $_SESSION['login_user']=$arr;
             } else {
             $error = "Username or Password is invalid";
             echo json_encode($error);

@@ -28,4 +28,5 @@ $method = $_SERVER["REQUEST_METHOD"];
 
     	echo json_encode($result);
 	}
+	$mysqli->close();
 ?>

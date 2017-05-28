@@ -15,7 +15,8 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $('#login-submit').click(function() {
+    $('#login-submit').click(function(e) {
+        e.preventDefault();
 
         var loginInfo = {
             user: $("#login-form #username").val(),
@@ -27,8 +28,11 @@ $(document).ready(function() {
             data: loginInfo,
             dataType: "text",
             success: function (data) {
-                console.log("Success: " + data);
-                window.location.replace("https://saifweb.000webhostapp.com/forum.html");
+                if(data === '\"Username or Password is invalid\"'){
+                    alert("Username or Password is invalid");
+                    return;
+                }
+                window.location = "https://saifweb.000webhostapp.com/forum.html";
 
             },
             error: function (err) {

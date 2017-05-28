@@ -13,6 +13,7 @@ $(document).ready(function() {
             data: d,
             dataType: "text",
             success: function (data) {
+                console.log(data);
                 refreshMessages();
             },
             error: function (err) {
@@ -22,6 +23,7 @@ $(document).ready(function() {
     });
 
     function refreshMessages() {
+         counter=0;
          $("#posts").empty();
          $("#messages").append("<li class='list-group-item'>Loading...</li>");
         $.ajax({
@@ -52,25 +54,31 @@ $(document).ready(function() {
         url: "/profile.php",
         type: "get",
         success: function (data) {
-            var username = data;
-            username = username.split("\"").join("");
-            console.log("username: " + username);
-            $("#userName").text(username);
-            if(username.length === 0) {//means that its logged/off
+            data = JSON.parse(data);
+            if(data && data[0]){
+                var username = data[0].user;
+                var isAdmin=data[0].is_admin;
+                if(isAdmin == 0 ) {
+                    $(".glyphicon-remove").hide();
+                }
+                $("#userName").text(username);
+                enableMessageInputAndSave();
+                hideLoginTab()
+            } else {
+                $(".glyphicon-remove").hide();
                 showLoginTab();
                 hideLogoutButton();
                 disableMessageInputAndSave();
-            } else {
-                enableMessageInputAndSave();
-                hideLoginTab()
             }
+
         },
         error: function (err) {
             console.log(err);
         }
     });
 
-    $("#logout").click(function(){
+    $("#logout").click(function(e){
+        e.preventDefault();
         $.ajax({
             url: "/logout.php",
             type: "get",
