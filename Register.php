@@ -27,7 +27,6 @@
 
 		$user1 = $_GET["user"];
     	$password1 = $_GET["password"];
-    	echo $user1 + " " + $password1;
 		$arr = array();
 		if ($select = $mysqli->query("SELECT * FROM users")) {
 			while($row = $select->fetch_assoc()) {
@@ -39,13 +38,11 @@
 	else if($method == "POST"){ //insert
 		$user = $_POST["user"];
 		$password = $_POST["password"];
-		$password_hashed = password_hash($password, PASSWORD_DEFAULT);
 		$email = $_POST["email"];
 
 		mysqli_query($mysqli,
-				"INSERT INTO users VALUES('$user', '$password_hashed','$email', 0)")
+				"INSERT INTO users VALUES('$user', '$password','$email', 0)")
 				or die(mysqli_error($mysqli));
-		echo "ok";
 	}
 
 	/***************************/

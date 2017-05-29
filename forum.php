@@ -40,7 +40,6 @@ include('session.php');
 		mysqli_query($mysqli, 
 				"INSERT INTO messages VALUES('$name', '$message')")
 				or die(mysqli_error($mysqli));
-		echo "ok";
 	}
 	
 	/***************************/

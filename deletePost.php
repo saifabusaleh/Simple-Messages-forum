@@ -26,7 +26,6 @@ $method = $_SERVER["REQUEST_METHOD"];
     				"DELETE from messages where message='$message' AND name='$name'")
     				or die(mysqli_error($mysqli));
 
-    	echo json_encode($result);
 	}
 	$mysqli->close();
 ?>

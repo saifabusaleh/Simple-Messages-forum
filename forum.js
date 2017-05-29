@@ -13,7 +13,6 @@ $(document).ready(function() {
             data: d,
             dataType: "text",
             success: function (data) {
-                console.log(data);
                 refreshMessages();
             },
             error: function (err) {
@@ -33,11 +32,6 @@ $(document).ready(function() {
                 $("#posts").empty();
                 $("#message").val('');
                 for (i = 0; i < data.length; i++) {
-                    // let li = "<li class='list-group-item'>" +
-                    //     data[i].name + ": " + data[i].message +
-                    //     "<span class=\"glyphicon glyphicon-remove\"></span>" +
-                    //     "</li>";
-                    // $("#messages").append(li);
                     data[i].name = data[i].name.split("\"").join("");
                     $("#posts").append(createPostTemplate(data[i].name,data[i].message));
                 }
@@ -83,10 +77,6 @@ $(document).ready(function() {
             url: "/logout.php",
             type: "get",
             success: function (data) {
-                console.log(data);
-            //    showLoginTab();
-             //   hideLogoutButton();
-            //    $("#userName").text(" ");
                 window.location.replace("https://saifweb.000webhostapp.com/forum.html");
             },
             error: function (err) {
@@ -98,7 +88,6 @@ $(document).ready(function() {
     $(document).on('click','.glyphicon-remove',function(){
         var postHeader = $(this).parent().text().split(".");
         var user = postHeader[1];
-        console.log(user);
         var texts = $(".panel-body");
         var text = texts.eq(postHeader[0]).text();
         text = text.split(" ").join("");
