@@ -2,6 +2,7 @@ A simple messages form
 
 Where user have ability to register, login, write post, logout.
 
+The username and password of the database is of the database of 000webhost
 
 created by Saif.
 
