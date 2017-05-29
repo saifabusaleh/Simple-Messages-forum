@@ -2,6 +2,12 @@
  * Created by Admin on 5/25/2017.
  */
 $(document).ready(function() {
+    onLoad();
+
+
+    $("#refresh").click(function() {
+       refreshMessages();
+    });
     $("#save").click(function () {
         var d = {
             name: $("#userName").text(),
@@ -41,35 +47,37 @@ $(document).ready(function() {
             }
         });
     }
+    function onLoad(){
+        refreshMessages();
 
-    refreshMessages();
-
-    $.ajax({
-        url: "/profile.php",
-        type: "get",
-        success: function (data) {
-            data = JSON.parse(data);
-            if(data && data[0]){
-                var username = data[0].user;
-                var isAdmin=data[0].is_admin;
-                if(isAdmin == 0 ) {
+        $.ajax({
+            url: "/profile.php",
+            type: "get",
+            success: function (data) {
+                data = JSON.parse(data);
+                if(data && data[0]){
+                    var username = data[0].user;
+                    var isAdmin=data[0].is_admin;
+                    if(isAdmin == 0 ) {
+                        $(".glyphicon-remove").hide();
+                    }
+                    $("#userName").text(username);
+                    enableMessageInputAndSave();
+                    hideLoginTab()
+                } else {
                     $(".glyphicon-remove").hide();
+                    showLoginTab();
+                    hideLogoutButton();
+                    disableMessageInputAndSave();
                 }
-                $("#userName").text(username);
-                enableMessageInputAndSave();
-                hideLoginTab()
-            } else {
-                $(".glyphicon-remove").hide();
-                showLoginTab();
-                hideLogoutButton();
-                disableMessageInputAndSave();
-            }
 
-        },
-        error: function (err) {
-            console.log(err);
-        }
-    });
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
 
     $("#logout").click(function(e){
         e.preventDefault();
